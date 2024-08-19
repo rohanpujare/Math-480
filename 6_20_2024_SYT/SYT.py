@@ -21,7 +21,13 @@ def is_valid_SYT(candidate):
   >>> is_valid_SYT(((1, 2, 3), (5, 4), (6))
   False
   """
-  return False
+  for x in range(len(candidate)):
+    for y in range(len(candidate[x])):
+      if (candidate[x][y] >= candidate[x+1][y]) and (x < len(candidate) - 1) and (y < len(candidate[y + 1])):
+        return False 
+      elif (candidate[x][y] >= [x][y+1]):
+        return False 
+  return True
 
 def reshape_perm(perm, shape):
   """
@@ -38,7 +44,14 @@ def reshape_perm(perm, shape):
   >>> reshape_perm((1, 2, 3, 4, 5, 6), (3, 2, 1))
   ((1, 2, 3), (4, 5), (6,))
   """
-  return tuple()
+  # return tuple()
+  listish = []
+  ind = 0
+  for x in shape: 
+    togo = ind + x
+    listish.append(tuple(perm[ind:togo]))
+    ind = togo
+  return tuple(listish) 
 
 def SYTs(shape):
   """
@@ -57,6 +70,10 @@ def SYTs(shape):
 
   n = sum(shape)
   results = []
+  allNum = itertools.permutations(range(1, n + 1), n)
+  for x in allNum: 
+    if (is_valid_SYT(reshape_perm(x, shape))):
+      results.__add__(reshape_perm(x, shape))
   return results
 
 def random_SYT(shape):
@@ -75,7 +92,16 @@ def random_SYT(shape):
   >>> random_SYT((2, 1))
   ((1, 2), (3,))
   """
-  return tuple()
+  n = sum(shape)
+  x = list(range(1, n +1))
+  random.shuffle(x)
+  notval = False
+  while (not notval):
+    if (not is_valid_SYT(reshape_perm(x, shape))):
+      random.shuffle(x)
+    else: 
+      notval = True 
+  return reshape_perm(x, shape)
 
 def random_SYT_2(shape):
   """
@@ -93,4 +119,14 @@ def random_SYT_2(shape):
   >>> random_SYT_2((2, 1))
   ((1, 2), (3,))
   """
-  return tuple()
+  n = sum(shape)
+  size = 0
+  for numL in shape:
+    
+    size += 1
+  rows, cols = range
+  arr = [[]]
+  for numL in shape: 
+    for x in range(numL):
+      arr[[x]numL] = 0
+    
