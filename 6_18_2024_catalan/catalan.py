@@ -17,8 +17,13 @@ def parenthesizations(n):
   if n == 0:
     return {""}
   else:
-    # TODO
-    pass
+    return genPar('', n, n)
+    def genPar(p, l, r, par = []):
+      if l: genPar(p + '(', l - 1, r)
+      if r > l: genPar(p + ')', l, r - 1)
+      if not r: par += p,
+      return par
+    #pass
 
 def product_orders(n):
   """
@@ -42,7 +47,16 @@ def product_orders(n):
     return {"?*?"}
   else:
     # TODO
-    pass
+    res = set()
+    for x in range (1, n):
+      beg = product_orders(x)
+      end = product_orders(n - x)
+      for b in beg: 
+        for e in end: 
+          res.add("({b}*{e})")
+
+    return res
+    #pass
 
 def permutations_avoiding_231(n):
   """
@@ -62,7 +76,18 @@ def permutations_avoiding_231(n):
     return set(itertools.permutations(range(1, n+1)))
   else:
     # TODO
-    pass
+    res = set()
+    res = set(itertools.permutations(range(1, n + 1)))
+    for possible in res: 
+      a = false 
+      subcheck = []
+      for elem in possible: 
+        if elem == 1 or elem == 2 or elem == 3:
+          subcheck.__add__(elem)
+      if subcheck.__eq__(2, 3, 1):
+        res.remove(possible)
+    return res
+    # pass
 
 def triangulations(n):
   """
@@ -84,5 +109,15 @@ def triangulations(n):
   elif n == 3:
     return {tuple()}
   else:
-    pass
+    #pass
     # TODO
+    res = set()
+
+    # induction = recursion 
+
+    for x in range (1, n): 
+      for t in triangulations(x):
+        for b in triangulations(n - x):
+          toAdd = [(0,i)] + list(t) + [(i + x),(j + x) for (i, j) in t] 
+          res.add(tuple(toAdd))
+    return res
