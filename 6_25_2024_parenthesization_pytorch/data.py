@@ -20,7 +20,16 @@ def parenthesization_to_tensor(parenthesization):
         parenthesization character is "(" or ")".
     """
     # TODO
-    pass
+    # pass
+    bin = []
+    for type in parenthesization:
+        if type == "(":
+            bin.append(0)
+        else:
+            bin.append(1)
+    tensor = torch.tensor(bin)
+    return tensor
+    
 
 class ParenthesizationDataset(Dataset):
     def __init__(self, n):
