@@ -13,7 +13,18 @@ def train_one_epoch(training_loader, model, loss_fn, optimizer):
         float: The total loss computed over the entire epoch.
     """
     # TODO: Use https://pytorch.org/tutorials/beginner/introyt/trainingyt.html#the-training-loop as a reference.
-    pass
+    # pass
+
+    running_loss = 0
+    for data in training_loader:
+        inputs, labels = data 
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = loss_fn(outputs, labels)
+        loss.backward
+        optimizer.step
+        running_loss += loss.item
+    return running_loss
 
 def evaluate_model(model, test_dataset):
     """
@@ -31,4 +42,10 @@ def evaluate_model(model, test_dataset):
     with torch.no_grad():
         confusion_matrix = [[0, 0], [0, 0]]
         # TODO
-        pass
+        for vdata in test_dataset:
+            vinputs, vlabels = vdata
+            voutputs = model(vinputs)
+            outlabel = torch.argmax(voutputs)
+            confusion_matrix[vlabels][outlabel] += 1
+        return confusion_matrix
+        #pass
