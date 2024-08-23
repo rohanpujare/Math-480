@@ -23,9 +23,9 @@ def is_valid_SYT(candidate):
   """
   for x in range(len(candidate)):
     for y in range(len(candidate[x])):
-      if (candidate[x][y] >= candidate[x+1][y]) and (x < len(candidate) - 1) and (y < len(candidate[y + 1])):
+      if (candidate[x][y] >= candidate[x+1][y]) and x < (len(candidate) - 1) and y < (len(candidate[y + 1])):
         return False 
-      elif (candidate[x][y] >= [x][y+1]):
+      elif (candidate[x][y] >= [x][y+1] and y < len(candidate[x]) - 1):
         return False 
   return True
 
@@ -73,7 +73,7 @@ def SYTs(shape):
   allNum = itertools.permutations(range(1, n + 1), n)
   for x in allNum: 
     if (is_valid_SYT(reshape_perm(x, shape))):
-      results.__add__(reshape_perm(x, shape))
+      results.append(reshape_perm(x, shape))
   return results
 
 def random_SYT(shape):
@@ -120,13 +120,27 @@ def random_SYT_2(shape):
   ((1, 2), (3,))
   """
   n = sum(shape)
-  size = 0
-  for numL in shape:
-    
-    size += 1
-  rows, cols = range
-  arr = [[]]
-  for numL in shape: 
-    for x in range(numL):
-      arr[[x]numL] = 0
-    
+  numbers = list(range(1, n + 1))      
+  while True:
+        random.shuffle(numbers) 
+        tableau = [] 
+        index = 0
+        valid = True
+        for row_length in shape:
+            row = numbers[index:index + row_length]
+            tableau.append(row)
+            index += row_length
+        for i in range(len(tableau)):
+            for j in range(len(tableau[i])):
+                if j > 0 and tableau[i][j] <= tableau[i][j - 1]:
+                    valid = False
+                if i > 0 and tableau[i][j] <= tableau[i - 1][j]:
+                    valid = False
+                if not valid:
+                    break
+            if not valid:
+                break
+        
+        if valid:
+            break 
+  return tuple(tuple(row) for row in tableau)
