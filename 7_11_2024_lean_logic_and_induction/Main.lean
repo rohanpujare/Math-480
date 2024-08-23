@@ -55,11 +55,8 @@ theorem assignment3
   intro n
   induction n with
   | zero =>
-    rw [pow_zero, h_zero]
-    norm_num
-  | succ k ih =>
-    rw [h_rec, ih]
-    have h : 2 * (2^k - 1) + 1 = 2 * 2^k - 2 + 1 := by ring_nf
-    rw [h]
-    rw [pow_succ]
-    norm_num
+    simp[h_zero]
+  | succ n ih =>
+    rw [h_rec]
+    rw[ih]
+    ring
